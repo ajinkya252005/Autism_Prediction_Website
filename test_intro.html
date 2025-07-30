@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}About the Test{% endblock %}
+
+{% block content %}
+<div class="test-intro-container">
+    <div class="test-intro-card">
+        <h1>Autism Spectrum Quotient (AQ) Test</h1>
+        
+        <div class="test-info">
+            <div class="info-box">
+                <h3>What to Expect</h3>
+                <ul>
+                    <li>10 carefully designed questions</li>
+                    <li>Takes about 5-10 minutes</li>
+                    <li>Honest answers give best results</li>
+                </ul>
+            </div>
+            
+            <div class="info-box">
+                <h3>How It Works</h3>
+                <ol>
+                    <li>Provide basic demographic info</li>
+                    <li>Answer each question truthfully</li>
+                    <li>Get immediate results with insights</li>
+                </ol>
+            </div>
+        </div>
+        
+        <div class="disclaimer">
+            <p><strong>Note:</strong> This is not a diagnostic tool. Always consult a healthcare professional for clinical assessment.</p>
+        </div>
+        
+        <div class="start-test">
+            <a href="{{ url_for('demographics') }}" class="btn-primary">Begin Test</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

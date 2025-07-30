@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="results-container">
+    <div class="result-summary">
+        <h1>Your Results</h1>
+        <div class="score-display {{ 'positive' if result == 'Positive' else 'negative' }}">
+            Score: {{ score }}% ({{ result }})
+        </div>
+    </div>
+
+    <div class="recommendations-section">
+        <h2>Personalized Recommendations</h2>
+        
+        <div class="general-recommendations">
+            <h3>General Advice</h3>
+            <ul>
+                {% for rec in general_recommendations %}
+                <li>{{ rec }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        
+        <div class="question-recommendations">
+            <h3>Question-Specific Advice</h3>
+            <div class="recommendation-cards">
+                {% for rec in question_recommendations %}
+                <div class="recommendation-card">
+                    <h4>{{ rec.question }}</h4>
+                    <p><strong>Your response:</strong> {{ rec.answer }}</p>
+                    <p>{{ rec.recommendation }}</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+    <div class="profile-header">
+        <h1>Hello, {{ current_user.full_name }}</h1>
+        <p>Age: {{ current_user.age }} | Member since: {{ current_user.date_created.strftime('%Y-%m-%d') }}</p>
+    </div>
+
+    <div class="stats-card">
+        <h2>Your Screening History</h2>
+        <div class="stats-grid">
+            <div class="stat-box">
+                <span class="stat-number">{{ test_count }}</span>
+                <span class="stat-label">Tests Taken</span>
+            </div>
+            <div class="stat-box">
+                <span class="stat-number">{{ positive_count }}</span>
+                <span class="stat-label">Positive Results</span>
+            </div>
+            <div class="stat-box">
+                <span class="stat-number">{{ last_score }}</span>
+                <span class="stat-label">Last Score</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="action-buttons">
+        <a href="{{ url_for('history') }}" class="btn-secondary">
+            View Full History
+        </a>
+        <a href="{{ url_for('test_intro') }}" class="btn-primary">
+            Take New Test
+        </a>
+    </div>
+</div>
+{% endblock %}

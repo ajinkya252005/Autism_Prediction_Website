@@ -1,0 +1,207 @@
+{% extends "base.html" %}
+
+{% block title %}Question {{ question_num }}{% endblock %}
+
+{% block content %}
+<div class="question-container">
+    <div class="progress-container">
+        <div class="progress-bar" style="width: {{ progress }}%"></div>
+        <span class="progress-text">Question {{ question_num }} of 10</span>
+    </div>
+    
+    <div class="question-card">
+        <h2>{{ question_text }}</h2>
+        
+        <form method="POST" action="{{ url_for('question', q_num=question_num) }}">
+            <input type="hidden" name="question_id" value="{{ question_num }}">
+            
+            <div class="answer-options">
+                <label class="option">
+                    <input type="radio" name="answer" value="1" required>
+                    <span>Agree</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="answer" value="1" required>
+                    <span>Slightly Agree</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="answer" value="0">
+                    <span>Slightly Disagree</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="answer" value="0">
+                    <span>Disagree</span>
+                </label>
+            </div>
+            
+            <div class="navigation-buttons">
+                {% if question_num > 1 %}
+                    <a href="{{ url_for('question', q_num=question_num-1) }}" class="btn btn-secondary">
+                        Previous Question
+                    </a>
+                {% else %}
+                    <a href="{{ url_for('demographics') }}" class="btn btn-secondary">
+                        Back to Demographics
+                    </a>
+                {% endif %}
+                
+                <button type="submit" class="btn btn-primary">
+                    {% if question_num == 10 %}Submit Test{% else %}Next Question{% endif %}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+    /* Question Page Specific Styles */
+    .question-container {
+        max-width: 800px;
+        margin: 2rem auto;
+        padding: 1rem;
+    }
+
+    .progress-container {
+        margin-bottom: 2rem;
+        position: relative;
+        height: 8px;
+        background: #e9ecef;
+        border-radius: 4px;
+    }
+
+    .progress-bar {
+        height: 100%;
+        background-color: #4361ee;
+        border-radius: 4px;
+        transition: width 0.3s ease;
+    }
+
+    .progress-text {
+        position: absolute;
+        right: 0;
+        top: -25px;
+        font-size: 0.9rem;
+        color: #6c757d;
+    }
+
+    .question-card {
+        background: white;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .question-card h2 {
+        font-size: 1.4rem;
+        margin-bottom: 1.5rem;
+        line-height: 1.4;
+        color: #212529;
+    }
+
+    .answer-options {
+        margin: 2rem 0;
+    }
+
+    .option {
+        display: block;
+        padding: 1rem;
+        margin: 0.5rem 0;
+        border: 1px solid #e9ecef;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .option:hover {
+        border-color: #4361ee;
+        background-color: rgba(67, 97, 238, 0.05);
+    }
+
+    .option input {
+        margin-right: 1rem;
+    }
+
+    .navigation-buttons {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 2rem;
+    }
+
+    .btn {
+        padding: 0.75rem 1.5rem;
+        border-radius: 8px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        border: none;
+        font-size: 1rem;
+    }
+
+    .btn-primary {
+        background-color: #4361ee;
+        color: white;
+    }
+
+    .btn-primary:hover {
+        background-color: #3a56d4;
+        transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+        background-color: white;
+        color: #4361ee;
+        border: 1px solid #4361ee;
+    }
+
+    .btn-secondary:hover {
+        background-color: rgba(67, 97, 238, 0.05);
+    }
+
+    @media (max-width: 768px) {
+        .question-container {
+            padding: 0.5rem;
+        }
+        
+        .question-card {
+            padding: 1.5rem;
+        }
+        
+        .navigation-buttons {
+            flex-direction: column-reverse;
+            gap: 1rem;
+        }
+        
+        .btn {
+            width: 100%;
+            text-align: center;
+        }
+    }
+</style>
+
+<script>
+    // Highlight selected answer
+    document.addEventListener('DOMContentLoaded', function() {
+        const options = document.querySelectorAll('.option');
+        options.forEach(option => {
+            option.addEventListener('click', function() {
+                options.forEach(opt => {
+                    opt.style.borderColor = '#e9ecef';
+                    opt.style.backgroundColor = 'transparent';
+                });
+                this.style.borderColor = '#4361ee';
+                this.style.backgroundColor = 'rgba(67, 97, 238, 0.05)';
+                this.querySelector('input').checked = true;
+            });
+        });
+        
+        // Auto-select if coming back to a question
+        const form = document.querySelector('form');
+        const selectedOption = document.querySelector('input[name="answer"]:checked');
+        if (selectedOption) {
+            selectedOption.closest('.option').style.borderColor = '#4361ee';
+            selectedOption.closest('.option').style.backgroundColor = 'rgba(67, 97, 238, 0.05)';
+        }
+    });
+</script>
+{% endblock %}
